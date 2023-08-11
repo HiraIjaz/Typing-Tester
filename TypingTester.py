@@ -44,13 +44,8 @@ def count_mismatches(str1, str2):
     Returns:
         int: Number of character mismatches.
     """
-    min_length = min(len(str1), len(str2))
-    mismatch_count = 0
 
-    for char1, char2 in zip(str1, str2):
-        if char1 != char2:
-            mismatch_count += 1
-
+    mismatch_count = sum([char1 != char2 for char1, char2 in zip(str1, str2)])
     mismatch_count += abs(len(str1) - len(str2))
 
     return mismatch_count
@@ -88,11 +83,11 @@ def calc_time_score(start_time, end_time, typed_word):
     Returns:
         float: Time score.
     """
-    avg_one_keystroke_time = 0.28
-    avg_transition_time = 0.4
+    AVG_ONE_KEYSTROKE_TIME = 0.28
+    AVG_TRANSITION_TIME = 0.4
     final_score = 0
     elapsed_time = end_time - start_time
-    raw_score = float(elapsed_time / (avg_transition_time + (avg_one_keystroke_time * (len(typed_word) + 1))))
+    raw_score = float(elapsed_time / (AVG_TRANSITION_TIME + (AVG_ONE_KEYSTROKE_TIME * (len(typed_word) + 1))))
 
     if raw_score < 1:
         final_score = 100
@@ -111,10 +106,10 @@ def typing_tester(test_word):
     """
     backspace_count = 0
 
-    enter_key = 10
-    backspace_key = 127
+    ENTER_KEY = 10
+    BACKSPACE_KEY = 127
 
-    word = ''
+    word = ""
     stop = False
 
     print(f'Type {test_word} and press Enter')
@@ -126,12 +121,12 @@ def typing_tester(test_word):
 
     while not stop:
         key = ord(getch())
-        if key == enter_key:  # enter is pressed
+        if key == ENTER_KEY:  # enter is pressed
             end_time = time.time()
             accuracy_score = calc_accuracy_score(word, test_word, backspace_count)
             time_score = calc_time_score(start_time, end_time, word)
             stop = True
-        elif key == backspace_key:  # backspace
+        elif key == BACKSPACE_KEY:  # backspace
             backspace_count += 1
             word = word[: -1]
         else:
